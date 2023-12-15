@@ -1,0 +1,57 @@
+{
+	"version": "2.0.0",
+	"tasks": [
+		{
+			"type": "npm",
+			"script": "build",
+			"group": {
+				"kind": "build",
+				"isDefault": true
+			},
+			"problemMatcher": [],
+			"label": "Build",
+			"detail": "next build",
+			"icon": {
+				"id": "tools",
+				"color": "terminal.ansiYellow"
+			}
+		},
+		{
+			"type": "npm",
+			"script": "test",
+			"group": {
+				"kind": "test",
+				"isDefault": true
+			},
+			"problemMatcher": [],
+			"label": "Run Tests",
+			"detail": "jest --watch",
+			"icon": {
+				"id": "beaker",
+				"color": "terminal.ansiBlue"
+			}
+		},
+		{
+			"type": "npm",
+			"script": "migrate:local",
+			"problemMatcher": [],
+			"label": "Migrate DB: Local",
+			"detail": "prisma migrate dev",
+			"icon": {
+				"id": "database",
+				"color": "terminal.ansiGreen"
+			}
+		},
+		{
+			"type": "npm",
+			"script": "studio:local",
+			"problemMatcher": [],
+			"label": "Prisma Studio: Local",
+			"detail": "prisma studio",
+			"icon": {
+				"id": "database",
+				"color": "terminal.ansiGreen"
+			}
+		}
+	]
+}

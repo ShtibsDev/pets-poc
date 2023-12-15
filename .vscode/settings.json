@@ -1,0 +1,55 @@
+{
+	"cSpell.language": "en,he",
+	"cSpell.words": [
+		"CLIENTVAR",
+		"formatjs",
+		"localematcher",
+		"NEXTAUTH",
+		"nextjs",
+		"Recursionable",
+		"runtimes",
+		"signin",
+		"signout",
+		"superjson",
+		"tailwindcss",
+		"tanstack",
+		"TRPC",
+		"גרינרי"
+	],
+	"css.customData": [".vscode/css-custom-data.json"],
+	"editor.tabSize": 2,
+	"editor.insertSpaces": false,
+	"editor.comments.insertSpace": false,
+	"editor.detectIndentation": false,
+	"scss.customData": [".vscode/css-custom-data.json"],
+
+	"editor.codeActionsOnSave": {
+		"source.organizeImports": "always",
+		"source.removeUnusedImports": "explicit"
+	},
+	"editor.formatOnSave": true,
+
+	"importSorter.sortConfiguration.customOrderingRules.rules": [
+		{
+			"type": "importMember",
+			"regex": "^$",
+			"orderLevel": 10,
+			"disableSort": true
+		},
+		{
+			"regex": "^(@\\/prisma|@[^\\/])",
+			"orderLevel": 20
+		},
+
+		{
+			"regex": "(\\.{1,2}\\/|@\\/*)(?!.*\\.(scss|css|png|jpg|svg))\\S*",
+			"orderLevel": 30
+		},
+		{
+			"regex": "(scss|css|png|jpg|svg)$",
+			"orderLevel": 40
+		}
+	],
+	"prettier.configPath": "prettier.config.js",
+	"conventionalCommits.scopes": ["analytics", "database"]
+}
