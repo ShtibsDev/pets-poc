@@ -14,38 +14,58 @@ datasource db {
 // Necessary for Next auth
 model Account {
   id                String  @id @default(cuid())
-  userId            String
+  userId            String  @db.Uuid
   type              String
   provider          String
   providerAccountId String
-  refresh_token     String? // @db.Text
-  access_token      String? // @db.Text
+  refresh_token     String?
+  access_token      String?
   expires_at        Int?
   token_type        String?
   scope             String?
-  id_token          String? // @db.Text
+  id_token          String?
   session_state     String?
-  user              User    @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
 
   @@unique([provider, providerAccountId])
+  @@map("accounts")
 }
 
 model Session {
   id           String   @id @default(cuid())
   sessionToken String   @unique
-  userId       String
+  userId       String   @db.Uuid
   expires      DateTime
   user         User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@map("sessions")
 }
 
 model User {
-  id            String    @id @default(cuid())
-  name          String?
-  email         String?   @unique
-  emailVerified DateTime?
+  id            String    @id @default(uuid()) @db.Uuid
+  name          String?   @db.VarChar(255)
+  email         String?   @unique @db.VarChar(255)
+  emailVerified DateTime? @map("email_verified")
+  phone         String?   @db.VarChar(20)
   image         String?
-  accounts      Account[]
-  sessions      Session[]
+  avatarId      BigInt?   @unique
+  adress        String?   @db.VarChar(255)
+  longitude     Decimal?
+  latitude      Decimal?
+
+  avatar   FileMetaData? @relation(name: "avatar", fields: [avatarId], references: [id])
+  accounts Account[]
+  sessions Session[]
+  pets     PetOwner[]
+  chats    Chat[]
+  messages Message[]
+  comments Comment[]
+
+  createdAt DateTime @default(now()) @map("created_at")
+  updatedAt DateTime @updatedAt @map("updated_at")
+
+  @@map("users")
 }
 
 model VerificationToken {
@@ -54,4 +74,129 @@ model VerificationToken {
   expires    DateTime
 
   @@unique([identifier, token])
+  @@map("verification_tokens")
+}
+
+model Pet {
+  id           String   @id @default(uuid()) @db.Uuid
+  name         String   @db.VarChar(100)
+  birthDate    DateTime @map("birth_date")
+  adoptionDate DateTime @map("adoption_date")
+  weight       Decimal?
+
+  breed  Breed[]
+  owners PetOwner[]
+
+  createdAt DateTime @default(now()) @map("created_at")
+  updatedAt DateTime @updatedAt @map("updated_at")
+
+  @@map("pets")
+}
+
+model Picture {
+  id      String @id @default(uuid()) @db.Uuid
+  caption String
+  imageId BigInt
+
+  image    FileMetaData @relation("pictures", fields: [imageId], references: [id])
+  comments Comment[]
+
+  createdAt DateTime @default(now()) @map("created_at")
+  updatedAt DateTime @updatedAt @map("updated_at")
+
+  @@map("puctures")
+}
+
+model Comment {
+  id        String @id @default(uuid()) @db.Uuid
+  content   String
+  pictureId String @db.Uuid
+  authorId  String @db.Uuid
+
+  picture Picture @relation(fields: [pictureId], references: [id])
+  author  User    @relation(fields: [authorId], references: [id])
+
+  createdAt DateTime @default(now()) @map("created_at")
+  updatedAt DateTime @updatedAt @map("updated_at")
+
+  @@map("comment")
+}
+
+model PetOwner {
+  userId     String    @default(uuid()) @db.Uuid
+  petId      String    @default(uuid()) @db.Uuid
+  premission Premision @default(Full)
+
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+  pet  Pet  @relation(fields: [petId], references: [id], onDelete: Cascade)
+
+  @@id([userId, petId])
+  @@map("owners")
+}
+
+model Chat {
+  id Int @id @default(autoincrement())
+
+  messages Message[]
+  users    User[]
+
+  createdAt DateTime @default(now()) @map("created_at")
+  updatedAt DateTime @updatedAt @map("updated_at")
+
+  @@map("chats")
+}
+
+model Message {
+  id      Int     @id @default(autoincrement())
+  text    String  @default("")
+  imageId BigInt? @map("image_id")
+  chatId  Int     @map("chat_id")
+  userId  String  @map("user_id") @db.Uuid
+
+  image FileMetaData? @relation(fields: [imageId], references: [id])
+  chat  Chat          @relation(fields: [chatId], references: [id])
+  user  User          @relation(fields: [userId], references: [id])
+
+  createdAt DateTime @default(now()) @map("created_at")
+  updatedAt DateTime @updatedAt @map("updated_at")
+
+  @@map("messages")
+}
+
+model FileMetaData {
+  id           BigInt  @id @default(autoincrement())
+  filename     String  @db.VarChar(255)
+  type         String  @db.VarChar(100)
+  url          String  @db.VarChar(2048)
+  avatarUserId String? @unique @map("avatar_user_id") @db.Uuid
+
+  avatarUser User?     @relation(name: "avatar")
+  pictures   Picture[] @relation("pictures")
+  messages   Message[]
+
+  createdAt DateTime @default(now()) @map("created_at")
+  updatedAt DateTime @updatedAt @map("updated_at")
+
+  @@map("files")
+}
+
+model Breed {
+  id   Int    @id @default(autoincrement())
+  name String @db.VarChar(100)
+
+  pet Pet[]
+}
+
+enum Premision {
+  Full
+  Read
+
+  @@map("PREMISION")
+}
+
+enum PetType {
+  Dog
+  Cat
+
+  @@map("PET_TYPE")
 }
