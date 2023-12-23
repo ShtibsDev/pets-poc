@@ -1,3 +1,7 @@
+import { getServerSession } from 'next-auth';
+
 export default async function Home() {
-  return <main className=""></main>;
+	const session = await getServerSession();
+
+	return <main className="">Hello {session?.user.name ?? 'Guest'}</main>;
 }

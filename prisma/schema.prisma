@@ -43,16 +43,17 @@ model Session {
 }
 
 model User {
-  id            String    @id @default(uuid()) @db.Uuid
-  name          String?   @db.VarChar(255)
-  email         String?   @unique @db.VarChar(255)
-  emailVerified DateTime? @map("email_verified")
-  phone         String?   @db.VarChar(20)
-  image         String?
-  avatarId      BigInt?   @unique
-  adress        String?   @db.VarChar(255)
-  longitude     Decimal?
-  latitude      Decimal?
+  id             String    @id @default(uuid()) @db.Uuid
+  name           String?   @db.VarChar(255)
+  email          String?   @unique @db.VarChar(255)
+  emailVerified  DateTime? @map("email_verified")
+  hashedPassword String?   @map("hashed_password")
+  phone          String?   @db.VarChar(20)
+  image          String?
+  avatarId       BigInt?   @unique
+  address        String?   @db.VarChar(255)
+  longitude      Decimal?
+  latitude       Decimal?
 
   avatar   FileMetaData? @relation(name: "avatar", fields: [avatarId], references: [id])
   accounts Account[]
