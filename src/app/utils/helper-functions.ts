@@ -10,13 +10,6 @@ export function generateSlug(source: string) {
 	return slug;
 }
 
-export function isUUID(value: string | null | undefined): value is UUID {
-	if (!value) return false;
-	const regexUUID = /^[0-9a-fA-F]{8}\b-[0-9a-fA-F]{4}\b-[0-9a-fA-F]{4}\b-[0-9a-fA-F]{4}\b-[0-9a-fA-F]{12}$/gi;
-
-	return regexUUID.test(value);
-}
-
 /**
  * A method to remove properties from an object.
  * @param value The object's value
