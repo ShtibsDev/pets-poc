@@ -51,7 +51,7 @@ model User {
   phone          String?   @db.VarChar(20)
   image          String?
   avatarId       BigInt?   @unique
-  adress         String?   @db.VarChar(255)
+  address        String?   @db.VarChar(255)
   longitude      Decimal?
   latitude       Decimal?
 
