@@ -1,6 +1,6 @@
 {
 	"name": "pets-poc",
-	"version": "0.1.0",
+	"version": "0.1.1",
 	"private": true,
 	"type": "module",
 	"scripts": {
@@ -16,7 +16,7 @@
 		"test:watch": "jest --watch",
 		"release": "standard-version",
 		"release:minor": "standard-version --release-as minor",
-		"release:patch": "standard-version --release-as patch",
+		"release:patch": "standard-version --release-as patch && git push --follow-tags",
 		"release:major": "standard-version --release-as major"
 	},
 	"dependencies": {
