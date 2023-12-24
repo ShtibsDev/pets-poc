@@ -13,7 +13,11 @@
 		"lint": "next lint",
 		"start": "next start",
 		"test": "jest",
-		"test:watch": "jest --watch"
+		"test:watch": "jest --watch",
+		"release": "standard-version",
+		"release:minor": "standard-version --release-as minor",
+		"release:patch": "standard-version --release-as patch",
+		"release:major": "standard-version --release-as major"
 	},
 	"dependencies": {
 		"@next-auth/prisma-adapter": "^1.0.7",
