@@ -2,6 +2,18 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [0.1.3](https://github.com/ShtibsDev/pets-poc/compare/v0.1.2...v0.1.3) (2023-12-25)
+
+
+### Features
+
+* 👷 Merge release and deploy workflows ([af3c3e4](https://github.com/ShtibsDev/pets-poc/commits/af3c3e4d8674b29a72aac96aa26d59a02cc2bba8))
+
+
+### Bug Fixes
+
+* 👷 Fix deployment sequence ([df10b98](https://github.com/ShtibsDev/pets-poc/commits/df10b98057830bedc75af3e23b8e473b0f4890ed))
+
 ### 0.1.1 (2023-12-24)
 
 
