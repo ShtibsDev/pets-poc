@@ -23,17 +23,19 @@ jobs:
         uses: actions/checkout@v4
         with:
           fetch-depth: 0
-      - name: Generate Tag And Release Body
+      - name: Generate Tag
         run: |
           git config user.name "GitHub Actions Bot"
           git config user.email "<>"
-          npx standard-version --release-as ${{ github.event.inputs.version }} --skip.tag
-          npx standard-version --release-as ${{ github.event.inputs.version }} -i RELEASE_BODY.md --skip.commit
+          npx standard-version --release-as ${{ github.event.inputs.version }}
       - name: Publish Tag
         id: publish_tag
         run: |
           git push --follow-tags
           echo ::set-output name=tag_name::$(git describe HEAD --abbrev=0)
+      - name: Create Release Body
+        run: |
+          npx standard-version --release-as ${{ steps.publish_tag.outputs.tag_name }} -i RELEASE_BODY.md --skip.bump --skip.commit --skip.tag
       - name: Create Release
         uses: actions/create-release@v1
         env:
