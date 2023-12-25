@@ -1,9 +1,7 @@
-name: Vercel Preview Deployment
+name: Deploy To Development
 env:
   VERCEL_ORG_ID: ${{ secrets.VERCEL_ORG_ID }}
   VERCEL_PROJECT_ID: ${{ secrets.VERCEL_PROJECT_ID }}
-  POSTGRES_PRISMA_URL: ${{ secrets.POSTGRES_PRISMA_URL }}
-  NEXTAUTH_SECRET: ${{ secrets.NEXTAUTH_SECRET }}
 on:
   push:
     branches:
@@ -11,8 +9,9 @@ on:
 jobs:
   Deploy-Preview:
     runs-on: ubuntu-latest
+    environment: Development
     steps:
-      - uses: actions/checkout@v2
+      - uses: actions/checkout@v4
       - name: Install Vercel CLI
         run: npm install --global vercel@latest
       - name: Pull Vercel Environment Information
