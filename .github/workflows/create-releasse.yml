@@ -2,19 +2,10 @@ name: Create Release
 # Controls when the action will run. Workflow runs when manually triggered using the UI
 # or API.
 on:
-  workflow_dispatch:
-    # Inputs the workflow accepts.
-    inputs:
-      version:
-        # Friendly description to be shown in the UI instead of 'name'
-        description: "Semver type of new version (major / minor / patch)"
-        # Input has to be provided for the workflow to run
-        required: true
-        type: choice
-        options:
-          - patch
-          - minor
-          - major
+  push:
+    # Pattern matched against refs/tags
+    tags:
+      - '*' # Push events to every tag not containing /
 jobs:
   Create-Release:
     runs-on: ubuntu-latest
@@ -23,32 +14,29 @@ jobs:
         uses: actions/checkout@v4
         with:
           fetch-depth: 0
-      - name: Generate Tag
+      - name: Generate Release Body
         run: |
           git config user.name "GitHub Actions Bot"
           git config user.email "<>"
-          npx standard-version --release-as ${{ github.event.inputs.version }}
-      - name: Publish Tag
-        id: publish_tag
-        run: |
-          git push --follow-tags
-          echo ::set-output name=tag_name::$(git describe HEAD --abbrev=0)
-      - name: Create Release Body
-        run: |
-          npx standard-version --release-as ${{ steps.publish_tag.outputs.tag_name }} -i RELEASE_BODY.md --skip.bump --skip.commit --skip.tag
+          npx standard-version --release-as ${{github.ref_name}} -i RELEASE_BODY.md --skip.bump --skip.commit --skip.tag
+      #- name: Publish Tag
+      #  id: publish_tag
+      #  run: |
+      #    git push --follow-tags
+      #    echo ::set-output name=tag_name::$(git describe HEAD --abbrev=0)
       - name: Create Release
         uses: actions/create-release@v1
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         with:
-          release_name: Release ${{ steps.publish_tag.outputs.tag_name }}
-          tag_name: ${{ steps.publish_tag.outputs.tag_name }}
+          release_name: Release ${{github.ref_name}}
+          tag_name: ${{github.ref_name}}
           body_path: RELEASE_BODY.md
   Deploy-Production:
     needs: Create-Release
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v3
+      - uses: actions/checkout@v4
       - name: Install Vercel CLI
         run: npm install --global vercel@latest
       - name: Pull Vercel Environment Information
