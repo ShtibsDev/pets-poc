@@ -27,6 +27,7 @@ jobs:
         run: |
           git config user.name "GitHub Actions Bot"
           git config user.email "<>"
+          npx standard-version --release-as ${{ github.event.inputs.version }} --skip.tag
           npx standard-version --release-as ${{ github.event.inputs.version }} -i RELEASE_BODY.md --skip.commit
       - name: Publish Tag
         id: publish_tag
