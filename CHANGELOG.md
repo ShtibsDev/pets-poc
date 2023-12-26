@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [0.3.1](https://github.com/ShtibsDev/pets-poc/compare/v0.3.0...v0.3.1) (2023-12-26)
+
+
+### Bug Fixes
+
+* 👷 Fix release notes extraction ([#13](https://github.com/ShtibsDev/pets-poc/issues/13)) ([60c89c6](https://github.com/ShtibsDev/pets-poc/commits/60c89c669f61fa3e183a11446206a6b6def9d179))
+
 ## [0.3.0](https://github.com/ShtibsDev/pets-poc/compare/v0.2.1...v0.3.0) (2023-12-25)
 
 
