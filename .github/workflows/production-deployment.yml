@@ -5,7 +5,7 @@ on:
     tags:
       - '*'
 jobs:
-  Smoke-Testing:
+  Test:
     runs-on: ubuntu-latest
     steps:
       - name: Set Up Node.js
@@ -18,11 +18,9 @@ jobs:
         run: npm ci
       - name: Run Tests
         run: npm run test:ci
-      - name: Build Application
-        run: npm run build:ci
 
   Deploy:
-    needs: Smoke-Testing
+    needs: Test
     runs-on: ubuntu-latest
     environment: Production
     steps:
